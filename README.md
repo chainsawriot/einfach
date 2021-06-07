@@ -12,7 +12,7 @@ Research Product Track V2 API as simple as possible. This package is
 inspired by [Facepager](https://github.com/strohne/Facepager) (Jünger &
 Keyling, 2019). But the author of this package doesn’t have the talent
 to clone it accurately, and thus **e**infach **i**s **n**ot
-**F**acepaper’s **a**ccurate **c**lone, **h**onestly.
+**F**acepager’s **a**ccurate **c**lone, **h**onestly.
 
 ## Installation
 
@@ -48,8 +48,7 @@ einfach()
 
 ### The dumped data
 
-Until a bug of the upstream academictwitteR is fixed, this package will
-only dump the tweet data.
+At the moment, this package will only dump the tweet data.
 
 The dumped data is a tibble and look like so:
 
