@@ -17,8 +17,7 @@ Imports:
     shiny,
     tibble,
     fs
-Remotes:
-    cjbarrie/academictwitteR
+Remotes: git::https://github.com/cjbarrie/academictwitteR.git@master
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
