@@ -8,7 +8,7 @@
             shiny::showNotification("fetching...", duration = input$ntweets / 100)
             start_date <- paste0(as.character(input$daterange[1]), "T00:00:00Z")
             end_date <- paste0(as.character(input$daterange[2]), "T23:59:59Z")        
-            academictwitteR::get_all_tweets(query = input$query, start_tweets = start_date, end_tweets = end_date, , data_path = einfach_data_path, n = input$ntweets, bind_tweets = FALSE, bearer_token = get_bearer(bearer_token_path), verbose = FALSE)
+            academictwitteR::get_all_tweets(query = input$query, start_tweets = start_date, end_tweets = end_date, data_path = einfach_data_path, n = input$ntweets, bind_tweets = FALSE, bearer_token = get_bearer(bearer_token_path), verbose = FALSE)
             shiny::showNotification("finished.", duration = 2)
             ## actually I want to have a way to quickly query #tweets
             res$tempdata <- tibble::as_tibble(academictwitteR::bind_tweet_jsons(einfach_data_path))
