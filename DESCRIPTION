@@ -16,8 +16,9 @@ RoxygenNote: 7.1.1
 Imports:
     shiny,
     tibble,
-    fs,
-    academictwitteR
+    fs
+Remotes:
+    cjbarrie/academictwitteR
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
