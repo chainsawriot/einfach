@@ -19,7 +19,8 @@ Imports:
     fs,
     academictwitteR
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    shinytest
 Config/testthat/edition: 3
 Remotes:
     github::cjbarrie/academictwitteR

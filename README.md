@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/chainsawriot/einfach/workflows/R-CMD-check/badge.svg)](https://github.com/chainsawriot/einfach/actions)
 <!-- badges: end -->
 
 The goal of einfach is to make collecting tweets through the Academic
@@ -29,9 +30,20 @@ devtools::install_github("chainsawriot/einfach")
     vignette](https://cran.r-project.org/web/packages/academictwitteR/vignettes/academictwitteR-auth.html)
     for more information.
 
-2.  Please setup your bearer token using the function `set_bearer()`.
-    You will be prompted for your bearer token. The token will be stored
-    as a hidden file in your home directory by default.
+2.  Please setup your bearer token according to the instructions in
+    `?get_bearer()`.
+
+You can do that either by inserting this line in either your `.Renviron`
+(You can edit your `.Renviron` using `usethis::edit_r_environ()`.)
+
+    TWITTER_BEARER="BABABABABABA"
+
+Advance users might know that you can also insert this line in your
+`~/*rc` (e.g. `~/.bashrc` or `~/.zshrc`) to get the same result.
+
+``` sh
+export TWITTER_BEARER="BABABABABABABA"
+```
 
 3.  Launch einfach
 

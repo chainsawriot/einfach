@@ -4,7 +4,7 @@
 \alias{einfach}
 \title{GUI frontend for collecting tweets}
 \usage{
-einfach(data_path = NULL, bearer_token_path = "~/.academictwitteR_token")
+einfach(data_path = NULL)
 }
 \arguments{
 \item{data_path}{path for storing your data; default to a temporatory directory}
