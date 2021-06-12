@@ -35,14 +35,14 @@
             shiny::stopApp()
         })
         shiny::observeEvent(input$preview, {
-            res$tempdata <- tibble::as_tibble(.lazy_bind_tweets(einfach_data_path))
+            res$tempdata <- .lazy_bind_tweets(einfach_data_path)
             output$data_preview <- shiny::renderTable(res$tempdata[, c("author_id", "text", "created_at")])
             shiny::showNotification(paste0("You have ", res$ndata, " tweets, only ", nrow(res$tempdata), " tweets are shown."), duration = 3)
         })
         output$dump <- shiny::downloadHandler(filename = function() {
             paste0("einfach ", input$query, " ", Sys.time(), ".RDS")
         }, content = function(file) {
-            saveRDS(res$tempdata , file)
+            saveRDS(academictwitteR::bind_tweets(einfach_data_path), file)
         }
         )
     }
@@ -115,6 +115,10 @@ einfach <- function(data_path = NULL, verbose = FALSE) {
 
 ## instead of bind all tweets, it binds only one file
 .lazy_bind_tweets <- function(data_path) {
+    ## return an empty data
+    if (!.has_data(data_path)) {
+        return(tibble::tibble())
+    }
     data_json_files <- fs::dir_ls(data_path, regexp = "data_.+\\.json")
-    jsonlite::read_json(sample(data_json_files, 1), simplifyVector = TRUE)
+    tibble::as_tibble(jsonlite::read_json(sample(data_json_files, 1), simplifyVector = TRUE))
 }
