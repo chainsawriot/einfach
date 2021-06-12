@@ -58,6 +58,9 @@ einfach()
 
 <img src="man/figures/einfach.gif" align="center" height="400" />
 
+If you want to know how to build a query, please read this guide from
+[Twitter](https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query).
+
 ### The dumped data
 
 At the moment, this package will only dump the tweet data.

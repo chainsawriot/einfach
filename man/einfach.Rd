@@ -4,12 +4,12 @@
 \alias{einfach}
 \title{GUI frontend for collecting tweets}
 \usage{
-einfach(data_path = NULL)
+einfach(data_path = NULL, verbose = FALSE)
 }
 \arguments{
 \item{data_path}{path for storing your data; default to a temporatory directory}
 
-\item{bearer_token_path}{path to your bearer token. Please setup using \code{set_bearer}}
+\item{verbose}{if \code{FALSE}, no output}
 }
 \value{
 Nothing

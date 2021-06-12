@@ -1,17 +1,22 @@
-.gen_server <- function(einfach_data_path) {
+.gen_server <- function(einfach_data_path, verbose) {
     function(input, output, session) {
         res <- shiny::reactiveValues(tempdata = tibble::tibble(), ndata = 0)
         output$status <- shiny::renderUI({
             paste0("Data directory: ", einfach_data_path, " / Number of tweets: ", res$ndata)
         })
         shiny::observeEvent(input$confirm, {
-            shiny::showNotification("fetching...", duration = input$ntweets / 100)
             start_date <- paste0(as.character(input$daterange[1]), "T00:00:00Z")
-            end_date <- paste0(as.character(input$daterange[2]), "T23:59:59Z")        
-            academictwitteR::get_all_tweets(query = input$query, start_tweets = start_date, end_tweets = end_date, data_path = einfach_data_path, n = input$ntweets, bind_tweets = FALSE, bearer_token = get_bearer(), verbose = FALSE)
+            end_date <- paste0(as.character(input$daterange[2]), "T23:59:59Z")
+            if (input$ntweets == 0) {
+                n <- Inf
+            } else {
+                n <- input$ntweets
+            }
+            shiny::showNotification("fetching...", duration = min(n / 100, 5))
+            academictwitteR::get_all_tweets(query = input$query, start_tweets = start_date, end_tweets = end_date, data_path = einfach_data_path, n = n, bind_tweets = FALSE, bearer_token = get_bearer(), verbose = verbose)
             shiny::showNotification("finished.", duration = 2)
             ## actually I want to have a way to quickly query #tweets
-            res$tempdata <- tibble::as_tibble(academictwitteR::bind_tweet_jsons(einfach_data_path))
+            res$tempdata <- tibble::as_tibble(academictwitteR::bind_tweets(einfach_data_path, verbose = verbose))
             res$ndata <- nrow(res$tempdata)
             output$status <- shiny::renderUI({
                 paste0("Data directory: ", einfach_data_path, " / Number of tweets: ", res$ndata)
@@ -41,12 +46,12 @@
 .UI_SEARCH <-
     shiny::fluidPage(
                shiny::titlePanel("Einfach"),
-               shiny::h4("Einfach is not Facepaper's accurate clone, honestly."),
+               shiny::h4("Einfach is not Facepager's accurate clone, honestly."),
                shiny::sidebarLayout(
                           shiny::sidebarPanel(
-                                     shiny::textInput(inputId = "query", label = "query: ", value = "#commtwitter"),
-                                     shiny::numericInput(inputId = "ntweets", label = "Number of tweets to collect", value = 450),
-                                     shiny::dateRangeInput(inputId = "daterange", label = "Date range", start = Sys.Date() - 7, end = Sys.Date() - 1),
+                                     shiny::textInput(inputId = "query", label = "Query: ", value = "#commtwitter"),
+                                     shiny::numericInput(inputId = "ntweets", label = "Number of tweets to collect (0: as many as possible)", value = 0, min = 0),
+                                     shiny::dateRangeInput(inputId = "daterange", label = "Date range", start = Sys.Date() - 365, end = Sys.Date() - 1),
                                      shiny::actionButton("confirm", "Fetch Data", icon = shiny::icon("cloud-download-alt")),
                                      shiny::actionButton("close", "Close"),
                                      shiny::uiOutput("btnprev"),
@@ -77,12 +82,12 @@ get_bearer <- function() {
 #'
 #' This function launches a GUI frontend for collecting tweets using the Twitter Academic Research Product Track v2 API endpoint. Please use \code{set_bearer} to setup your bearer token first.
 #' @param data_path path for storing your data; default to a temporatory directory
-#' @param bearer_token_path path to your bearer token. Please setup using \code{set_bearer}
+#' @param verbose if `FALSE`, no output
 #' @return Nothing
 #' @export
-einfach <- function(data_path = NULL) {
+einfach <- function(data_path = NULL, verbose = FALSE) {
     if (is.null(data_path)) {
         data_path <- .gen_random_dir()
     }
-    shiny::runGadget(shiny::shinyApp(.UI_SEARCH, .gen_server(einfach_data_path = data_path)))
+    shiny::runGadget(shiny::shinyApp(.UI_SEARCH, .gen_server(einfach_data_path = data_path, verbose = verbose)))
 }
