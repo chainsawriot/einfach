@@ -1,7 +1,7 @@
 .gen_server <- function(einfach_data_path, verbose) {
     function(input, output, session) {
         res <- shiny::reactiveValues(tempdata = tibble::tibble(), ndata = 0)
-        res$data <- .count_tweets(einfach_data_path)
+        res$ndata <- .count_tweets(einfach_data_path)
         output$status <- shiny::renderUI({
             paste0("Data directory: ", einfach_data_path, " / Number of tweets: ", res$ndata)
         })
