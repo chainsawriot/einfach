@@ -1,4 +1,5 @@
 test_that(".has_data functions properly", {
+    skip_on_cran()
     expect_true(einfach:::.has_data("../testdata/ica21/"))
     newdir <- einfach:::.gen_random_dir()
     expect_false(einfach:::.has_data(newdir))

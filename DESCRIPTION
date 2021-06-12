@@ -20,7 +20,8 @@ Imports:
     tibble,
     fs,
     academictwitteR,
-    jsonlite
+    jsonlite,
+    purrr
 Suggests: 
     testthat (>= 3.0.0),
     shinytest

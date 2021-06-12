@@ -1,3 +1,8 @@
 ^LICENSE\.md$
 ^README\.Rmd$
 ^\.github$
+^tests/testdata/ica21/
+README\.html
+^tests/testthat/test-empty\.R$
+^tests/testthat/test-json_things\.R$
+

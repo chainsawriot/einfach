@@ -1,4 +1,5 @@
 test_that(".count_tweets", {
+    skip_on_cran()
     expect_equal(einfach:::.count_tweets("../testdata/ica21/"), 11108)
     newdir <- einfach:::.gen_random_dir()
     expect_equal(einfach:::.count_tweets(newdir), 0)
@@ -12,6 +13,7 @@ test_that(".count_tweets", {
 })
 
 test_that(".lazy_bind_tweets", {
+    skip_on_cran()
     set.seed(46709394)
     test_df <- einfach:::.lazy_bind_tweets("../testdata/ica21/")
     expect_lt(nrow(test_df), 11108)
