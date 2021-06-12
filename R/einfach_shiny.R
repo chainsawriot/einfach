@@ -1,6 +1,7 @@
 .gen_server <- function(einfach_data_path, verbose) {
     function(input, output, session) {
         res <- shiny::reactiveValues(tempdata = tibble::tibble(), ndata = 0)
+        res$data <- .count_tweets(einfach_data_path)
         output$status <- shiny::renderUI({
             paste0("Data directory: ", einfach_data_path, " / Number of tweets: ", res$ndata)
         })
@@ -15,9 +16,11 @@
             shiny::showNotification("fetching...", duration = min(n / 100, 5))
             academictwitteR::get_all_tweets(query = input$query, start_tweets = start_date, end_tweets = end_date, data_path = einfach_data_path, n = n, bind_tweets = FALSE, bearer_token = get_bearer(), verbose = verbose)
             shiny::showNotification("finished.", duration = 2)
+            res$ndata <- .count_tweets(einfach_data_path)
+            output$status <- shiny::renderUI({
+                paste0("Data directory: ", einfach_data_path, " / Number of tweets: ", res$ndata)
+            })
             ## actually I want to have a way to quickly query #tweets
-            res$tempdata <- tibble::as_tibble(academictwitteR::bind_tweets(einfach_data_path, verbose = verbose))
-            res$ndata <- nrow(res$tempdata)
             output$status <- shiny::renderUI({
                 paste0("Data directory: ", einfach_data_path, " / Number of tweets: ", res$ndata)
             })
@@ -32,7 +35,9 @@
             shiny::stopApp()
         })
         shiny::observeEvent(input$preview, {
+            res$tempdata <- tibble::as_tibble(.lazy_bind_tweets(einfach_data_path))
             output$data_preview <- shiny::renderTable(res$tempdata[, c("author_id", "text", "created_at")])
+            shiny::showNotification(paste0("You have ", res$ndata, " tweets, only ", nrow(res$tempdata), " tweets are shown."), duration = 3)
         })
         output$dump <- shiny::downloadHandler(filename = function() {
             paste0("einfach ", input$query, " ", Sys.time(), ".RDS")
@@ -58,7 +63,6 @@
                                      shiny::uiOutput("btndump")
                                      ),
                           shiny::mainPanel(
-                                     shiny::h2("Status:"),
                                      shiny::uiOutput("status"),
                                      shiny::tableOutput("data_preview")
                                  )
@@ -90,4 +94,27 @@ einfach <- function(data_path = NULL, verbose = FALSE) {
         data_path <- .gen_random_dir()
     }
     shiny::runGadget(shiny::shinyApp(.UI_SEARCH, .gen_server(einfach_data_path = data_path, verbose = verbose)))
+}
+
+## check for emptyness / having data
+.has_data <- function(data_path) {
+    if (!fs::dir_exists(data_path)) {
+        return(FALSE)
+    }
+    length(fs::dir_ls(data_path, regexp = "(data_|users_).+\\.json$")) != 0
+}
+
+## do whtat the function name says
+.count_tweets <- function(data_path) {
+    if (!.has_data(data_path)) {
+        return(0)
+    }
+    data_json_files <- fs::dir_ls(data_path, regexp = "data_.+\\.json$")
+    sum(purrr::map_int(data_json_files, ~ length(jsonlite::read_json(.))))
+}
+
+## instead of bind all tweets, it binds only one file
+.lazy_bind_tweets <- function(data_path) {
+    data_json_files <- fs::dir_ls(data_path, regexp = "data_.+\\.json")
+    jsonlite::read_json(sample(data_json_files, 1), simplifyVector = TRUE)
 }

@@ -1,23 +1,26 @@
 Package: einfach
 Title: Einfach Is Not Facepager's Accurate Clone Honestly
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person(given = "Chung-hong",
            family = "Chan",
            role = c("aut", "cre"),
            email = "chainsawtiney@gmail.com",
            comment = c(ORCID = "0000-0002-6232-7530"))
-Description: A simple GUI frontend for collecting tweets using the Twitter Academic Research Product Track v2 API
+Description: This is a simple GUI frontend for collecting tweets using the Twitter Academic Research Product Track v2 API.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Depends:
+    R (>= 3.5)
 Imports:
     shiny,
     tibble,
     fs,
-    academictwitteR
+    academictwitteR,
+    jsonlite
 Suggests: 
     testthat (>= 3.0.0),
     shinytest
