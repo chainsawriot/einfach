@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# einfach
+# einfach <img src="man/figures/einfach_logo.png" align="right" height="200" />
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/chainsawriot/einfach/workflows/R-CMD-check/badge.svg)](https://github.com/chainsawriot/einfach/actions)

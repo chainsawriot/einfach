@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# einfach
+# einfach <img src="man/figures/einfach_logo.png" align="right" height="200" />
 
 <!-- badges: start -->
 
