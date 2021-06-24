@@ -28,7 +28,10 @@
                 shiny::actionButton("preview", "Data Preview")
             })
             output$btndump <- shiny::renderUI({
-                shiny::downloadButton("dump", "Dump as RDS")
+                shiny::tagList(
+                           shiny::selectInput("format", "Format:", c("Serialized R Object (RDS)" = "rds", "Comma-seperated data (CSV)" = "csv", "Excel (xlsx)" = "xlsx", "Stata (dta)" = "dta", "SPSS (sav)" = "sav")),
+                           shiny::downloadButton("dump", "Dump")
+                )
             })
         })
         shiny::observeEvent(input$close, {
@@ -40,9 +43,9 @@
             shiny::showNotification(paste0("You have ", res$ndata, " tweets, only ", nrow(res$tempdata), " tweets are shown."), duration = 3)
         })
         output$dump <- shiny::downloadHandler(filename = function() {
-            paste0("einfach ", input$query, " ", Sys.time(), ".RDS")
+            paste0("einfach ", input$query, " ", Sys.time(), ".", input$format)
         }, content = function(file) {
-            saveRDS(academictwitteR::bind_tweets(einfach_data_path), file)
+            rio::export(academictwitteR::bind_tweets(einfach_data_path, output_format = "tidy"), file)
         }
         )
     }

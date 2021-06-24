@@ -63,31 +63,54 @@ If you want to know how to build a query, please read this guide from
 
 ### The dumped data
 
-At the moment, this package will only dump the tweet data.
+You can dump the collected data as either Serialized R Object (RDS),
+Comma-seperated data (CSV), Excel (xlsx), Stata (dta) or SPSS (sav).
 
-The dumped data is a tibble and look like so:
+The format is the so-called “tidy” format like the one below
 
 ``` r
 require(tibble)
 #> Loading required package: tibble
 example
-#> # A tibble: 288 x 15
-#>    source  id     entities$mentio… $hashtags $annotations $urls possibly_sensit…
-#>    <chr>   <chr>  <list>           <list>    <list>       <lis> <lgl>           
-#>  1 Twitte… 14001… <df [1 × 3]>     <df [1 ×… <named list… <nam… FALSE           
-#>  2 Twitte… 14001… <df [1 × 3]>     <named l… <df [2 × 5]> <nam… FALSE           
-#>  3 Twitte… 13997… <df [1 × 3]>     <named l… <df [2 × 5]> <nam… FALSE           
-#>  4 Twitte… 13997… <named list [0]> <df [1 ×… <df [2 × 5]> <df … FALSE           
-#>  5 Twitte… 13997… <named list [0]> <df [1 ×… <df [1 × 5]> <df … FALSE           
-#>  6 Twitte… 13993… <df [1 × 3]>     <named l… <named list… <nam… FALSE           
-#>  7 Twitte… 13993… <df [1 × 3]>     <named l… <named list… <nam… FALSE           
-#>  8 Twitte… 13992… <named list [0]> <df [3 ×… <df [1 × 5]> <nam… FALSE           
-#>  9 Twitte… 13990… <df [1 × 3]>     <df [1 ×… <named list… <nam… FALSE           
-#> 10 Twitte… 13990… <df [1 × 3]>     <df [1 ×… <named list… <nam… FALSE           
-#> # … with 278 more rows, and 11 more variables: context_annotations <list>,
-#> #   conversation_id <chr>, created_at <chr>, public_metrics <df[,4]>,
-#> #   text <chr>, lang <chr>, referenced_tweets <list>, author_id <chr>,
-#> #   attachments <df[,1]>, geo <df[,1]>, in_reply_to_user_id <chr>
+#> # A tibble: 857 x 31
+#>    tweet_id   user_username  text          lang  source   author_id  created_at 
+#>    <chr>      <chr>          <chr>         <chr> <chr>    <chr>      <chr>      
+#>  1 136537201… RutgersCommIn… "RT @NatComm… en    Twitter… 52517689   2021-02-26…
+#>  2 136536853… NatComm        "NCA invites… en    Twitter… 17880989   2021-02-26…
+#>  3 136533671… ElizabethAHin… "Always happ… en    Twitter… 116490404… 2021-02-26…
+#>  4 136519974… quinnli725     "RT @judith_… en    Twitter… 781327782… 2021-02-26…
+#>  5 136512063… lizbmarquis    "RT @disable… en    Twitter… 982724506… 2021-02-26…
+#>  6 136507685… jlinabary      "RT @disable… en    Twitter… 16538343   2021-02-25…
+#>  7 136506714… egerphd        "RT @disable… en    Twitter… 102731352… 2021-02-25…
+#>  8 136506497… MrSulaimanKhan "RT @disable… en    Twitter… 213644552  2021-02-25…
+#>  9 136506486… wunpini_fm     "RT @disable… en    Twitter… 460255655  2021-02-25…
+#> 10 136506462… disabledphd    "Hey #CommTw… en    Twitter… 118480786… 2021-02-25…
+#> # … with 847 more rows, and 24 more variables: conversation_id <chr>,
+#> #   possibly_sensitive <lgl>, in_reply_to_user_id <chr>, user_location <chr>,
+#> #   user_description <chr>, user_created_at <chr>,
+#> #   user_profile_image_url <chr>, user_name <chr>, user_verified <lgl>,
+#> #   user_url <chr>, user_protected <lgl>, user_pinned_tweet_id <chr>,
+#> #   retweet_count <int>, like_count <int>, quote_count <int>,
+#> #   user_tweet_count <int>, user_list_count <int>, user_followers_count <int>,
+#> #   user_following_count <int>, sourcetweet_type <chr>, sourcetweet_id <chr>,
+#> #   sourcetweet_text <chr>, sourcetweet_lang <chr>, sourcetweet_author_id <chr>
+```
+
+With the following columns
+
+``` r
+colnames(example)
+#>  [1] "tweet_id"               "user_username"          "text"                  
+#>  [4] "lang"                   "source"                 "author_id"             
+#>  [7] "created_at"             "conversation_id"        "possibly_sensitive"    
+#> [10] "in_reply_to_user_id"    "user_location"          "user_description"      
+#> [13] "user_created_at"        "user_profile_image_url" "user_name"             
+#> [16] "user_verified"          "user_url"               "user_protected"        
+#> [19] "user_pinned_tweet_id"   "retweet_count"          "like_count"            
+#> [22] "quote_count"            "user_tweet_count"       "user_list_count"       
+#> [25] "user_followers_count"   "user_following_count"   "sourcetweet_type"      
+#> [28] "sourcetweet_id"         "sourcetweet_text"       "sourcetweet_lang"      
+#> [31] "sourcetweet_author_id"
 ```
 
 ## Contributing

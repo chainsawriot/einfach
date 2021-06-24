@@ -62,9 +62,9 @@ If you want to know how to build a query, please read this guide from [Twitter](
 
 ### The dumped data
 
-At the moment, this package will only dump the tweet data.
+You can dump the collected data as either Serialized R Object (RDS), Comma-seperated data (CSV), Excel (xlsx), Stata (dta) or SPSS (sav).
 
-The dumped data is a tibble and look like so:
+The format is the so-called "tidy" format like the one below
 
 ```{r, include = FALSE}
 example <- readRDS(system.file("extdata", "example_data.RDS", package = "einfach"))
@@ -73,6 +73,12 @@ example <- readRDS(system.file("extdata", "example_data.RDS", package = "einfach
 ```{r}
 require(tibble)
 example
+```
+
+With the following columns
+
+```{r}
+colnames(example)
 ```
 
 ## Contributing
